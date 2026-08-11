@@ -1,0 +1,21 @@
+
+<div class="category-container">
+  <header class="category-header">
+    <h2>Category: {{ categoryId }}</h2>
+  </header>
+
+  <div class="exercise-grid">
+    @for (exercise of filteredExercises; track exercise.id) {
+      <a
+        [routerLink]="['/exercise', exercise.id]"
+        class="exercise-squircle"
+        [ngClass]="getDifficultyClass(exercise.difficulty)"
+      >
+        <span class="exercise-title">{{ exercise.title }}</span>
+        <span class="difficulty-badge">{{ exercise.difficulty }}</span>
+      </a>
+    } @empty {
+      <p class="empty-state">No exercises found in this category.</p>
+    }
+  </div>
+</div>

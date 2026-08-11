@@ -1,0 +1,89 @@
+.category-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.category-header h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-transform: capitalize;
+}
+
+.exercise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.exercise-squircle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  aspect-ratio: 1 / 1; /* Keeps it square/squircle shape */
+  padding: 1.5rem;
+  border-radius: 28px; /* Smooth squircle curves */
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+
+.exercise-squircle:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.exercise-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.difficulty-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  align-self: flex-end;
+}
+
+
+.diff-easy {
+  background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.03));
+  border-color: rgba(34, 197, 94, 0.3);
+}
+.diff-easy .difficulty-badge {
+  background-color: rgba(34, 197, 94, 0.2);
+  color: #15803d;
+}
+
+.diff-medium {
+  background: radial-gradient(circle at top left, rgba(234, 179, 8, 0.15), rgba(234, 179, 8, 0.03));
+  border-color: rgba(234, 179, 8, 0.3);
+}
+.diff-medium .difficulty-badge {
+  background-color: rgba(234, 179, 8, 0.2);
+  color: #a16207;
+}
+
+.diff-hard {
+  background: radial-gradient(circle at top left, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.03));
+  border-color: rgba(239, 68, 68, 0.3);
+}
+.diff-hard .difficulty-badge {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #b91c1c;
+}
+
+.diff-default {
+  background: rgba(255, 255, 255, 0.05);
+}

@@ -1,0 +1,56 @@
+# ========================
+# Root
+# ========================
+.DS_Store
+Thumbs.db
+.log
+.tmp
+.swp
+.idea
+.vscode
+.iml
+.code-workspace
+
+# ========================
+# Frontend (Angular)
+# ========================
+frontendnode_modules
+frontenddist
+frontend.angular
+frontendcoverage
+frontend.npm
+frontend.yarn
+frontendnpm-debug.log
+frontendyarn-error.log
+frontend.env
+frontend.env.
+
+# ========================
+# Backend (Spring Boot  Maven)
+# ========================
+backendtarget
+backend.mvn
+backendmvnw
+backendmvnw.cmd
+backend.idea
+backend.iml
+backend.classpath
+backend.project
+backend.settings
+backend.log
+
+# ========================
+# Docker
+# ========================
+# (usually nothing to ignore, but just in case)
+docker-compose.override.yml
+
+# ========================
+# General
+# ========================
+.class
+.jar
+.war
+.ear
+hs_err_pid
+/frontend/dist/

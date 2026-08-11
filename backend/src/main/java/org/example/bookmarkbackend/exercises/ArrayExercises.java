@@ -1,0 +1,578 @@
+package org.example.bookmarkbackend.exercises;
+
+import java.util.*;
+
+public class ArrayExercises {
+
+    public static int[] twoSum(int[] nums, int target) {
+        //Creating hashmap with integers as key and value
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        //Going through all array indexes
+        for (int i = 0; i < nums.length; i++) {
+            //If there already is a value in hashmap which equals to target - value of current index
+            //return array with index of value in map (as array value is key and index is map value)
+            // and current index
+            if (map.containsKey(target - nums[i])) {
+                return new int[]{map.get(target - nums[i]), i};
+            }
+            //If searched value isn't in map, throws value of current place in array as key, and it's index as value
+            map.put(nums[i], i);
+        }
+        //Since there's always a solution, this never happens
+        return null;
+    }
+
+    //Used binary search approach to find cut places in both arrays, instead of merging them
+    //Getting O(log(n+m)) for large arrays
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+
+        if (nums1.length == 0 || nums2.length == 0) {
+            if (nums1.length == nums2.length) {
+                return 0;
+            }
+            int[] arr = (nums1.length==0) ? nums2 : nums1;
+            int index=arr.length/2;
+            if(arr.length % 2 == 0){
+                double median= ((double)arr[index]+(double)arr[index-1])/2;
+                return median;
+            }else{
+                return arr[index];
+            }
+        }
+
+        System.out.println("nums1:"+Arrays.toString(nums1)+" \nnums2:"+Arrays.toString(nums2));
+
+        double median=0;
+        int[] shortArray;
+        int[] longArray;
+        if(nums1.length!=nums2.length){
+         shortArray = (nums1.length<=nums2.length?nums1:nums2);
+         longArray = (nums1.length>=nums2.length?nums1:nums2);
+        }else{
+             shortArray=nums1;
+             longArray=nums2;
+        }
+        int maxLeft;
+        int minRight;
+        int length=nums1.length+nums2.length;
+        int index=findIndex(shortArray, longArray);
+        int jndex=((length)/2)-index;
+        System.out.println("jndex:"+jndex +" index:" + index);
+        int left1=(index<1) ? Integer.MIN_VALUE : shortArray[index-1];
+        int left2=(jndex<1) ? Integer.MIN_VALUE : longArray[jndex - 1];
+        System.out.println("Short Array:"+ Arrays.toString(shortArray)+"\nLong Array:"+ Arrays.toString(longArray));
+        int right1 = (index >= shortArray.length) ? Integer.MAX_VALUE : shortArray[index];
+        int right2 = (jndex >= longArray.length) ? Integer.MAX_VALUE : longArray[jndex];
+        System.out.println("Left1:"+left1+"\nLeft2:"+left2+"\nRight1:"+right1+"\nRight2:"+right2);
+        minRight = Math.min(right1, right2);
+        maxLeft = Math.max(left1, left2);
+
+        if(length%2==0){
+            median=((double)maxLeft+(double)minRight)/2;
+        }else{
+            int ij=index+jndex;
+            if(ij<(length/2)){
+            median= maxLeft;}
+            else{
+                median= minRight;
+            }
+        }
+        System.out.println("Median:"+median);
+        return median;
+    }
+    public static int findIndex(int[] shortArray, int[] longArray) {
+        int l1 = shortArray.length;
+        int l2 = longArray.length;
+
+
+        int lo=0;
+        int hi=shortArray.length;
+        while (true) {
+            int i = (lo + hi) / 2;
+            int j = (l1 + l2) / 2 - i;
+            int left1 = (i == 0) ? Integer.MIN_VALUE : shortArray[i-1];
+            int right1 = (i >= shortArray.length) ? Integer.MAX_VALUE : shortArray[i];
+            int left2 = (j == 0) ? Integer.MIN_VALUE : longArray[j-1];
+            int right2 = (j >= longArray.length) ? Integer.MAX_VALUE : longArray[j];
+                if (left1 <= right2 && right1 >= left2) {
+                    System.out.println("index:"+i);
+                    return i;
+                } else if (left1 > right2) {
+                    hi = i - 1;
+                } else if (left2 > right1) {
+                    lo = i + 1;
+                }
+            }
+    }
+
+    public static int maxArea(int[] height) {
+        int pointer1=0,pointer2=height.length-1;
+        int maxArea=(pointer2-pointer1)*(Math.min(height[pointer1], height[pointer2]));
+        while(pointer1<pointer2){
+            if(height[pointer1]<height[pointer2]){
+                pointer1++;
+            }else{
+                pointer2--;
+            }
+            int newArea=(pointer2-pointer1)*(Math.min(height[pointer1], height[pointer2]));
+            if(maxArea<newArea){
+                maxArea=newArea;
+            }
+        }
+        return maxArea;
+    }
+
+    public static List<List<Integer>> threeSum(int[] nums) {
+        HashSet<List<Integer>> tripletsSet = new HashSet<>();
+        List<List<Integer>> triplets=new ArrayList<>();
+        HashSet<Integer> integerSet=new HashSet<>();
+        for(int j=0;j<nums.length;j++){
+            integerSet.clear();
+            for (int i = 0; i < nums.length; i++){
+                if(i==j){
+                    continue;
+                }
+               if(integerSet.contains(-(nums[j]+nums[i]))){
+                   List<Integer> list=new ArrayList<>();
+                   list.add(nums[j]);
+                   list.add(nums[i]);
+                   list.add(-(nums[j]+nums[i]));
+                   list.sort(Integer::compareTo);
+                   if(!tripletsSet.contains(list)){
+                       tripletsSet.add(list);
+                       triplets.add(list);
+                   }
+                   while(i<nums.length-2&&nums[i]==nums[i+1]){
+                       i++;
+                   }
+               }
+               integerSet.add(nums[i]);
+            }
+        }
+        return triplets;
+    }
+
+    public static int threeSumClosest(int[] nums, int target) {
+        int p1=0, p2=1,p3=nums.length-1;
+        int smallest=Integer.MAX_VALUE;
+        int answer=0;
+        Arrays.sort(nums);
+        System.out.println(Arrays.toString(nums));
+        while(p1<=nums.length-3){
+            while(p2<p3){
+                System.out.println("p1+p2+p3="+(nums[p1]+nums[p2]+nums[p3]));
+
+              if(nums[p1]+nums[p2]+nums[p3]==target){
+                  System.out.println("Here");
+                  return target;
+              }
+              if(smallest>Math.abs(target-(nums[p1]+nums[p2]+nums[p3]))){
+                  System.out.println("smallest before="+smallest);
+                  smallest=Math.abs(target-(nums[p1]+nums[p2]+nums[p3]));
+                  System.out.println("smallest after="+smallest);
+                  answer=nums[p1]+nums[p2]+nums[p3];
+                  //System.out.println("current answer="+answer +" because nums[p1]:" + nums[p1] + " nums[p2]:"+ nums[p2] + " nums[p3]:"+nums[p3]);
+              }
+                if(nums[p1]+nums[p2]+nums[p3]<target){
+                    //System.out.println("get higher");
+                    p2++;
+                }
+                if(nums[p1]+nums[p2]+nums[p3]>target){
+                    //System.out.println("get lower");
+                    p3--;
+                }
+            }
+            p1++;
+            p2=p1+1;
+            p3=nums.length-1;
+            System.out.println("Going next step: p1="+p1+" p2="+p2+" p3="+p3);
+        }
+        return answer;
+    }
+
+    public static List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+        List<Boolean> ans=new ArrayList<>();
+        int highest=Integer.MIN_VALUE;
+        int index=Integer.MIN_VALUE;
+        for(int i=0;i<candies.length;i++){
+            if(candies[i]>highest){
+                highest=candies[i];
+                index=i;
+            }
+        }
+
+        for(int i=0;i<candies.length;i++){
+            if(i==index){
+                ans.add(true);
+                continue;
+            }
+            if(candies[i]+extraCandies>=highest){
+                ans.add(true);
+            }else {
+                ans.add(false);
+            }
+
+        }
+        return ans;
+    }
+
+    public static boolean canPlaceFlowers(int[] flowerbed, int n) {
+
+        if(flowerbed.length==1){
+            return flowerbed[0] == 0 || n == 0;
+        }
+        if(flowerbed[0]==0&&flowerbed[1]==0){
+            n--;
+            flowerbed[0]=1;
+        }
+        for(int i=1;i<=flowerbed.length-2;i++){
+            if(flowerbed[i-1]==0&&flowerbed[i+1]==0&&flowerbed[i]==0){
+                n--;
+                flowerbed[i]=1;
+            }
+        }
+        if(flowerbed[flowerbed.length-1]==0&&flowerbed[flowerbed.length-2]==0){
+            n--;
+            flowerbed[flowerbed.length-1]=1;
+        }
+        return n <= 0;
+    }
+
+    public static int[] productExceptSelf(int[] nums) {
+        int[] left = new int[nums.length];
+        int[] right = new int[nums.length];
+        int temp=1;
+        for(int i=0;i<nums.length;i++){
+            temp=temp*nums[i];
+            left[i]=temp;
+        }
+        temp=1;
+        for(int i=nums.length-1;i>0;i--){
+            temp=temp*nums[i];
+            right[i]=temp;
+        }
+        int[] ans=new int[nums.length];
+        for(int i=0;i<nums.length;i++){
+            if(i==0){
+                ans[i]=right[i+1];
+            }else if(i==nums.length-1){
+                ans[i]=left[i-1];
+            }else {
+                ans[i] = left[i - 1] * right[i + 1];
+            }
+        }
+        return ans;
+    }
+
+    public static boolean increasingTriplet(int[] nums) {
+        int smallest=nums[0];
+        int medium=Integer.MAX_VALUE;
+
+        for(int i=1;i<nums.length;i++){
+           if(nums[i]>medium){
+               return true;
+           }else if(nums[i]<medium&&nums[i]>smallest){
+               medium=nums[i];
+           }else if(nums[i]<smallest){
+               smallest=nums[i];
+           }
+        }
+
+
+        return false;
+    }
+
+    public static void moveZeroes(int[] nums) {
+        int zeroCounter=0;
+        List<Integer> list=new ArrayList<>();
+        for (int num : nums) {
+            if (num != 0) {
+                list.add(num);
+            } else {
+                zeroCounter++;
+            }
+        }
+        for(int i=0;i<list.size();i++){
+            nums[i]=list.get(i);
+        }
+        for(int i=list.size(); i<list.size()+zeroCounter; i++){
+            nums[i]=0;
+        }
+
+    }
+
+    public static int maxOperations(int[] nums, int k) {
+        Arrays.sort(nums);
+        int pointer1=0;
+        int pointer2=nums.length-1;
+        int pairs=0;
+        while(pointer1<pointer2){
+            if(nums[pointer1]+nums[pointer2]==k){
+                pairs++;
+                pointer1++;
+                pointer2--;
+            }
+            else if(nums[pointer1]+nums[pointer2]>k){
+                pointer2--;
+            }else{
+                pointer1++;
+            }
+
+        }
+        return pairs;
+    }
+
+    public static double findMaxAverage(int[] nums, int k) {
+        int start=0;
+        int end=k-1;
+        int biggest=Integer.MIN_VALUE;
+        int sum=0;
+        int first=0;
+        while(end<nums.length){
+            if(start==0){
+                first=nums[start];
+                for(int i=start;i<=end;i++){
+                    sum+=nums[i];
+                }
+            }else{
+                sum-=first;
+                sum+=nums[end];
+                first=nums[start];
+            }
+            if(sum>biggest){
+                biggest=sum;
+            }
+            start++;
+            end++;
+        }
+        return (double)biggest/(double)k;
+    }
+
+    public static int longestOnes(int[] nums, int k) {
+        int start = 0;
+        int end = 0;
+        int length = 0;
+        int zeroes=0;
+
+        if(k==0){
+            int sum=0;
+            while(end<nums.length){
+                if(nums[end]==1){
+                    sum++;
+                    System.out.println("adding sum, sum="+sum);
+                }
+                if(nums[end]==0){
+                   if(sum>length) length=sum;
+                   sum=0;
+                }
+                end++;
+            }
+            if(sum>length) length=sum;
+            return length;
+        }
+
+        while(end<nums.length){
+            if(nums[end]==0){
+                zeroes++;
+            }
+            if(zeroes>k){
+                while(zeroes>k) {
+                    start++;
+                    if (nums[start - 1] == 0) {
+                        zeroes--;
+                    }
+                    if(start>end) start=end;
+                }
+            }
+            if(end-start+1>length)length=end-start+1;
+            end++;
+        }
+
+        return length;
+    }
+
+    public static int longestSubarray(int[] nums) {
+        int k=1;
+        int start = 0;
+        int end = 0;
+        int length = 0;
+        int zeroes=0;
+
+        while(end<nums.length){
+            if(nums[end]==0){
+                zeroes++;
+            }
+            if(zeroes>k){
+                while(zeroes>k) {
+                    start++;
+                    if (nums[start - 1] == 0) {
+                        zeroes--;
+                    }
+                    if(start>end) start=end;
+                }
+            }
+            if(end-start+1>length)length=end-start+1;
+            end++;
+        }
+        return length;
+    }
+
+    public static int largestAltitude(int[] gain) {
+        int height=0;
+        int highest=Integer.MIN_VALUE;
+        for (int j : gain) {
+            height += j;
+            if (height > highest) {
+                highest = height;
+            }
+        }
+        return Math.max(highest, 0);
+    }
+
+    public static int pivotIndex(int[] nums) {
+        int sum=0;
+        int[] prefixSum=new int[nums.length];
+        for(int i=0;i<prefixSum.length;i++){
+            sum+=nums[i];
+            prefixSum[i]=sum;
+        }
+        System.out.println(Arrays.toString(prefixSum));
+        if(prefixSum[prefixSum.length-1]-prefixSum[0]==0){
+            return 0;
+        }
+        for(int i=1;i<prefixSum.length;i++){
+            if(prefixSum[i-1]==(prefixSum[prefixSum.length-1]-prefixSum[i])){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
+        List<List<Integer>> ans=new ArrayList<>();
+        HashSet<Integer> set1=new HashSet<>();
+        HashSet<Integer> set2=new HashSet<>();
+        for (int i : nums1) {
+            set1.add(i);
+        }
+        for (int j : nums2) {
+            set2.add(j);
+        }
+        List<Integer> list1=new ArrayList<>();
+        List<Integer> list2=new ArrayList<>();
+        for (int i : set1) {
+            if(!set2.contains(i)){
+                list1.add(i);
+            }
+        }
+        for (int i : set2) {
+            if(!set1.contains(i)){
+                list2.add(i);
+            }
+        }
+        ans.add(list1);
+        ans.add(list2);
+        return ans;
+    }
+
+    public static boolean uniqueOccurrences(int[] arr) {
+        HashMap<Integer,Integer> map=new HashMap<>();
+        for(int i=0;i<arr.length;i++){
+            if(map.containsKey(arr[i])){
+                map.put(arr[i],map.get(arr[i])+1);
+            }else {
+                map.put(arr[i],1);
+            }
+        }
+        HashSet<Integer>set=new HashSet<>();
+        for(int i : map.keySet()){
+            set.add(map.get(i));
+        }
+
+        return set.size() == map.size();
+
+    }
+
+    public static int equalPairs(int[][] grid) {
+        int counter=0;
+        HashMap<String,Integer> rows=new HashMap<>();
+        HashMap<List<Integer>,Integer> cols=new HashMap<>();
+        for (int[] ints : grid) {
+            List<Integer> list=new ArrayList<>();
+            for (int anInt : ints) {
+                list.add(anInt);
+            }
+            if(cols.containsKey(list)) {
+                cols.put(list, cols.get(list)+1);
+            }else {
+                cols.put(list, 1);
+            }
+        }
+        /*for (Map.Entry<String, Integer> entry : rows.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+        }*/
+        for(int i=0;i<grid.length;i++){
+            List<Integer> list=new ArrayList<>();
+            for(int j=0;j<grid[0].length;j++){
+                list.add(grid[j][i]);
+            }
+            if (cols.containsKey(list)) {
+                counter+=cols.get(list);
+            }
+        }
+        return counter;
+    }
+
+    public static int[] asteroidCollision(int[] asteroids) {
+        Stack<Integer> stack=new Stack<>();
+        for(int i=0;i<asteroids.length;i++){
+            if(asteroids[i]>0){
+                stack.push(asteroids[i]);
+            }
+            if(asteroids[i]<0){
+                int absolute=Math.abs(asteroids[i]);
+                if(!stack.isEmpty()){
+                    if(stack.peek()<0){
+                        stack.push(asteroids[i]);
+                    }else{
+                        while(!stack.isEmpty()){
+                            if(stack.peek()<0){
+                                stack.push(asteroids[i]);
+                                break;
+                            }
+                            if(stack.peek()>absolute){
+                                break;
+                            }else if(stack.peek()==absolute){
+                                stack.pop();
+                                break;
+                            }else{
+                                stack.pop();
+                            }
+                            if(stack.isEmpty()){
+                                stack.push(asteroids[i]);
+                                break;
+                            }
+                        }
+                    }
+                }else stack.push(asteroids[i]);
+            }
+        }
+
+        int[] res=new int[stack.size()];
+        for(int i=stack.size()-1;i>=0;i--){
+            res[i]=stack.pop();
+        }
+        return res;
+    }
+
+    public static boolean stoneGame(int[] piles) {
+        return true;
+        //Since it's mathematically impossible to lose while having 1st move and playing optimally
+    }
+
+
+
+
+}
+

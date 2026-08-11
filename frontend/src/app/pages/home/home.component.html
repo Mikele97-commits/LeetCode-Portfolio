@@ -1,0 +1,17 @@
+<div class="home-wrapper">
+  <div class="category-grid">
+    @for (cat of categories; track cat.id) {
+      <a [routerLink]="['/category', cat.id]" class="card-btn">
+      <div class="category-card">
+        <div class="card-header">
+          <h3>{{ cat.title }}</h3>
+          <span class="badge">{{ cat.count }} Problems</span>
+        </div>
+        <p class="card-description">{{ cat.description }}</p>
+      </div>
+      </a>
+    } @empty {
+      <p>No categories found.</p>
+    }
+  </div>
+</div>

@@ -1,0 +1,87 @@
+
+<div class="workbench-wrapper">
+
+
+
+  <main class="workspace-grid">
+
+    <!-- Column 1: Description -->
+   @if(exercise){
+     <div class="card card-description">
+      <div class="card-header">
+        <span class="icon">📝</span>
+        <h2>Description</h2>
+      </div>
+      <div class="card-body">
+        <p class="description-text">{{ exercise.description }}</p>
+        <a [href]="exercise.link" target="_blank" rel="noopener noreferrer" class="leetcode-link">
+          View on LeetCode ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- Column 2: Code Snippet -->
+    <div class="card card-code">
+      <div class="card-header">
+        <span class="icon">⚡</span>
+        <h2>Starter Code</h2>
+      </div>
+      <div class="card-body">
+        <pre><code>{{ exercise.code }}</code></pre>
+      </div>
+    </div>
+
+    <!-- Column 3: Interactive Workspace (Empty for now) -->
+    <div class="card card-interactive">
+      <div class="card-header">
+        <span class="icon">⚙️</span>
+        <h2>Playground</h2>
+      </div>
+       <div class="card-body empty-state">
+         <form #exerciseForm="ngForm" (ngSubmit)="runSolution()">
+
+           <!-- Dynamic inputs -->
+           @for (param of exercise.inputs; track param.name) {
+             <div class="input-group">
+               <label [for]="param.name">{{ param.label }}</label>
+
+               <input
+                 [id]="param.name"
+                 [name]="param.name"
+                 [type]="param.type === 'number' ? 'number' : 'text'"
+                 [(ngModel)]="paramValues[param.name]"
+                 required
+               />
+             </div>
+           }
+
+           <!-- Submit button -->
+           <button
+             type="submit"
+             class="run-btn"
+             [disabled]="!exerciseForm.valid"
+           >
+             Run Code
+           </button>
+
+           <!-- Result output -->
+           <div class="output-box">
+             <span class="output-label">Result:</span>
+             <pre>{{ outputResult }}</pre>
+           </div>
+
+         </form>
+       </div>
+    </div>
+   }
+  </main>
+
+  <header class="workbench-header">
+    <a routerLink="/" class="back-link">← Home</a>
+  </header>
+  <header class="workbench-header">
+    <a routerLink="/category/{{exercise?.category}}" class="back-link">← Back to Category</a>
+  </header>
+</div>
+
+
