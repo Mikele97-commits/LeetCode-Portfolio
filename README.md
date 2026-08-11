@@ -82,7 +82,7 @@ LeetCode-Portfolio/
 
 ## Future improvements
 
-- Better design
+- Better design 
 - More exercises
 - Improved documentation of individual solutions
 
