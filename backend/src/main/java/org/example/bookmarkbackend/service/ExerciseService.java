@@ -75,6 +75,11 @@ public class ExerciseService {
                         IntExercises.isPalindrome(Integer.parseInt(data.get(0).value()))
                 );
 
+            case 11: //Container with most water
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                return String.valueOf(ArrayExercises.maxArea(array1));
+            }
             case 12: // Integer to Roman
                 return IntExercises.intToRoman(Integer.parseInt(data.get(0).value()));
 
@@ -145,6 +150,18 @@ public class ExerciseService {
             case 151: // Reverse Words in a String
                 return StringExercises.reverseWords(data.get(0).value());
 
+            case 238: //Product of array except self
+                return Arrays.toString(ArrayExercises.productExceptSelf(arrayMaker(data.get(0).value())));
+
+            case 283: //Move zeroes
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                ArrayExercises.moveZeroes(array1);
+                return Arrays.toString(array1);
+            }
+
+            case 334://Increasing triplet subsequence
+                return String.valueOf(ArrayExercises.increasingTriplet(arrayMaker(data.get(0).value())));
             case 345: // Reverse Vowels of a String
                 return StringExercises.reverseVowels(data.get(0).value());
 
@@ -159,16 +176,64 @@ public class ExerciseService {
             case 394: // Decode String
                 return StringExercises.decodeString(data.get(0).value());
 
+            case 443:// String compression
+            {
+                System.out.println(data.get(0).value());
+                char[] chars = data.get(0).value().toCharArray();
+                return String.valueOf(StringExercises.compress(chars));
+            }
+
+            case 605 : //Can place flowers
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                return String.valueOf(ArrayExercises.canPlaceFlowers(array1, Integer.parseInt(data.get(1).value())));
+            }
+
+            case 643: // Maximum Average Subarray
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                return String.valueOf(ArrayExercises.findMaxAverage(array1, Integer.parseInt(data.get(1).value())));
+            }
             case 649: // Dota2 Senate
                 return StringExercises.predictPartyVictory(data.get(0).value());
 
+            case 724://Find pivot index
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                return String.valueOf(ArrayExercises.pivotIndex(array1));
+            }
+
+            case 735: //Asteroid collision
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                return Arrays.toString(ArrayExercises.asteroidCollision(array1));
+            }
+
+            case 933://Number of recent calls
+                return "Since arguments of this one are very specific, there is no working playground for that exercise. Sorry!";
+
+            case 1004: //Max consecutive ones 3
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                return String.valueOf(ArrayExercises.longestOnes(array1, Integer.parseInt(data.get(1).value())));
+            }
             case 1071: // Greatest Common Divisor of Strings
                 return StringExercises.gcdOfStrings(
                         data.get(0).value(),
                         data.get(1).value()
                 );
 
+            case 1207: //Unique number of occurrences
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                return String.valueOf(ArrayExercises.uniqueOccurrences(array1));
+            }
 
+            case 1431://Kids with the greatest number of candies
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                return ArrayExercises.kidsWithCandies(array1, Integer.parseInt(data.get(1).value())).toString();
+            }
 
             case 1456: // Maximum Number of Vowels in a Substring of Given Length
                 return String.valueOf(
@@ -186,11 +251,42 @@ public class ExerciseService {
                         )
                 );
 
+            case 1679://Max number of k sum pairs
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                return String.valueOf(ArrayExercises.maxOperations(array1, Integer.parseInt(data.get(1).value())));
+            }
+
+            case 1732://Find the highest altitude
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                return String.valueOf(ArrayExercises.largestAltitude(array1));
+            }
             case 1768: // Merge Strings Alternately
                 return StringExercises.mergeAlternately(
                         data.get(0).value(),
                         data.get(1).value()
                 );
+
+            case 2215://Find the difference of two arrays
+            {
+                int[] array1 = arrayMaker(data.get(0).value());
+                int[] array2 = arrayMaker(data.get(1).value());
+                return ArrayExercises.findDifference(array1,array2).toString();
+            }
+
+            case 2352://Equal row and column pairs
+            {
+                String regex=";";
+                String[] split=data.get(0).value().split(regex);
+                System.out.println(Arrays.toString(split));
+                int size = split.length;
+                int[][] matrix = new int[size][size];
+                for (int i = 0; i < size; i++) {
+                    matrix[i]=arrayMaker(split[i]);
+                }
+                return String.valueOf(ArrayExercises.equalPairs(matrix));
+            }
 
             case 2390: // Removing Stars From a String
                 return StringExercises.removeStars(data.get(0).value());

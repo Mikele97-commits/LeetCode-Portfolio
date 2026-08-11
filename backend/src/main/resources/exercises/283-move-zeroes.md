@@ -7,6 +7,7 @@ link: "https://leetcode.com/problems/move-zeroes/description/"
 ---
 
 Given an integer array `nums`, move all 0's to the end of it while maintaining the relative order of the non-zero elements. Note that you must do this in-place without making a copy of the array.
+By default this function returns void, but in the name of transparency here it'll return processed array
 
 ```java
 public static void moveZeroes(int[] nums) {

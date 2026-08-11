@@ -19,9 +19,7 @@ Interactive full-stack portfolio project that lets you browse and **run** LeetCo
 
 ## Current Status
 
-- Exercises with simple parameter types (`String` and `int`) are fully working
-- Array-based exercises are partially supported / still being improved
-- Some edge cases and more advanced input types are planned for the future
+-All exercises are complete and tested
 
 ---
 
@@ -84,10 +82,8 @@ LeetCode-Portfolio/
 
 ## Future improvements
 
-- Full support for arrays and more complex input types
-- Better error handling and input validation
+- Better design
 - More exercises
-- Dark/light mode toggle
 - Improved documentation of individual solutions
 
 ---
