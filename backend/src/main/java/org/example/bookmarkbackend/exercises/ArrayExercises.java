@@ -28,7 +28,7 @@ public class ArrayExercises {
 
         if (nums1.length == 0 || nums2.length == 0) {
             if (nums1.length == nums2.length) {
-                return 0;
+                return  0;
             }
             int[] arr = (nums1.length==0) ? nums2 : nums1;
             int index=arr.length/2;
